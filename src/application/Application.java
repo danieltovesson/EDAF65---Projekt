@@ -11,6 +11,6 @@ public class Application {
 	 * Runs the program
 	 */
 	private void run() {
-		System.out.println("hej :)");
+		// TODO: Implement
 	}
 }
