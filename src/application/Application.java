@@ -8,7 +8,7 @@ public class Application {
 	}
 
 	/**
-	 * Runs the program
+	 * Runs the program!
 	 */
 	private void run() {
 		// TODO: Implement
