@@ -1,6 +1,7 @@
 package server;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import classes.User;
@@ -29,14 +30,25 @@ public class EmptyMailboxThread extends Thread {
 	 */
 	public void run() {
 
-		// Prints the mailbox message
 		while (true) {
-			String message = mailbox.getMessage();
+
+			// Prints the mailbox message if there is any
+			String[] message = mailbox.getMessage();
 			if (message != null) {
+
+				// Saves the users to print to in a array
+				ArrayList<String> connectedUsers = new ArrayList<String>();
+				connectedUsers.add(message[0]);
+				connectedUsers.add(message[1]);
+
 				for (User user : users) {
-					PrintWriter out = user.getPrintWriter();
-					out.println(message);
-					out.flush();
+					if (connectedUsers.contains(user.getName())) {
+
+						// Prints the message
+						PrintWriter out = user.getPrintWriter();
+						out.println(message[2]);
+						out.flush();
+					}
 				}
 			}
 		}
