@@ -1,6 +1,7 @@
 package gui;
 
 import javafx.event.EventHandler;
+import client.Client;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -33,7 +34,7 @@ public class GUI {
 	 */
 	public GUI(Stage primaryStage) {
 
-		// Creates a Gridpane for the userCreateWindow
+		// Creates a grid pane for the userCreateWindow
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
@@ -49,7 +50,7 @@ public class GUI {
 		Label userName = new Label("Username: ");
 		grid.add(userName, 0, 1);
 
-		// Creates a textfield
+		// Creates a text field
 		userTextField = new TextField();
 		grid.add(userTextField, 1, 1);
 
@@ -79,10 +80,13 @@ public class GUI {
 					Text title = new Text("Rock, Papper & Scissors");
 
 					// Creates ObserveableList
-					ObservableList<String> Users = FXCollections.observableArrayList();
-					Users.add(userTextField.getText());
+					ObservableList<String> users = FXCollections.observableArrayList();
+					users.add(userTextField.getText());
+					
+					// Create client
+					Client client = new Client(userTextField.getText());
 
-					ListView<String> lvUsers = new ListView<String>(Users);
+					ListView<String> lvUsers = new ListView<String>(users);
 					lvUsers.setPrefSize(150, 150);
 
 					// When user is clicked upon, opponents name is showing
