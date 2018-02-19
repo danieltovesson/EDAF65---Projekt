@@ -19,17 +19,15 @@ public class Client {
 	/**
 	 * Creates a Client object
 	 * 
-	 * @param machine
-	 *            the machine of the socket
-	 * @param port
-	 *            the port of the socket
+	 * @param name
+	 *            the name of the client
 	 */
-	public Client(String clientName, String machine, int port) {
+	public Client(String name) {
 
 		try {
 
 			// Create socket and get input and output streams
-			socket = new Socket(machine, port);
+			socket = new Socket("localhost", 9163);
 			is = socket.getInputStream();
 			os = socket.getOutputStream();
 			BufferedReader in = new BufferedReader(new InputStreamReader(is));
@@ -40,7 +38,7 @@ public class Client {
 			inputThread.start();
 
 			// Create new client message for the server
-			command = "nc " + clientName;
+			command = "newClient " + name;
 
 			// Start output stream thread
 			OutputThread outputThread = new OutputThread(command, out);
@@ -58,13 +56,33 @@ public class Client {
 	 *            the name of the client
 	 */
 	public void connectTo(String clientName) {
-		command = "c " + clientName;
+		command = "connectTo " + clientName;
+	}
+
+	/**
+	 * Disconnects from another client
+	 * 
+	 * @param clientName
+	 *            the name of the client
+	 */
+	public void disconnectFrom(String clientName) {
+		command = "disconnectFrom " + clientName;
+	}
+
+	/**
+	 * Sends a message to a connected client
+	 * 
+	 * @param message
+	 *            the message
+	 */
+	public void sendMessage(String message) {
+		command = "msg " + message;
 	}
 
 	/**
 	 * Quits the application
 	 */
 	public void quit() {
-		command = "q";
+		command = "quit";
 	}
 }

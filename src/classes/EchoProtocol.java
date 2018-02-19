@@ -10,7 +10,15 @@ public class EchoProtocol {
 	 * @return the processed input
 	 */
 	public String processInput(String input) {
-		// TODO: Implement
-		return "";
+		if (input.startsWith("newClient ")) {
+			input = input.substring(10);
+		} else if (input.startsWith("connectTo ")) {
+			input = input.substring(10);
+		} else if (input.startsWith("disconnectFrom ")) {
+			input = input.substring(15);
+		} else if (input.startsWith("msg ")) {
+			input = input.substring(4);
+		}
+		return input;
 	}
 }
