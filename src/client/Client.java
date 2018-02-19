@@ -11,6 +11,7 @@ import java.net.Socket;
 public class Client {
 
 	// Variables
+	private String name;
 	private Socket socket;
 	private InputStream is;
 	private OutputStream os;
@@ -23,6 +24,15 @@ public class Client {
 	 *            the name of the client
 	 */
 	public Client(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * Starts the client
+	 * 
+	 * @return true if the client were successfully started, otherwise false
+	 */
+	public boolean start() {
 
 		try {
 
@@ -44,8 +54,11 @@ public class Client {
 			OutputThread outputThread = new OutputThread(command, out);
 			outputThread.start();
 
+			return true;
+
 		} catch (IOException e) {
 			System.out.println("Connection error");
+			return false;
 		}
 	}
 
