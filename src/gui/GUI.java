@@ -82,6 +82,10 @@ public class GUI {
 						// Create response Label
 						Label response = new Label("Select user to play against");
 
+						// Create user label
+						Label user = new Label("Active as: " + userTextField.getText());
+						user.setAlignment(Pos.CENTER_LEFT);
+
 						// Create Play button
 						Button play = new Button("Play");
 
@@ -90,7 +94,8 @@ public class GUI {
 
 						// Creates ObserveableList
 						ObservableList<String> users = FXCollections.observableArrayList();
-						users.add(userTextField.getText());
+						// TODO:
+						// Other clients must be added to the list
 
 						// Creates a list view to show observable list
 						ListView<String> lvUsers = new ListView<String>(users);
@@ -107,6 +112,7 @@ public class GUI {
 
 						// Adds elements to FlowPane
 						flow.getChildren().add(title);
+						flow.getChildren().add(user);
 						flow.getChildren().add(lvUsers);
 						flow.getChildren().add(response);
 						flow.getChildren().add(play);
@@ -115,7 +121,7 @@ public class GUI {
 						Stage stage = new Stage();
 						stage.setResizable(false);
 						stage.setTitle("Game");
-						Scene scene = new Scene(flow, 300, 350);
+						Scene scene = new Scene(flow, 300, 400);
 						stage.setScene(scene);
 						stage.show();
 					} else {

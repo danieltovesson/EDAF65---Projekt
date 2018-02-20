@@ -2,7 +2,7 @@ package gui;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import server.Server;
+
 
 public class RockPaperScissors extends Application {
 	
