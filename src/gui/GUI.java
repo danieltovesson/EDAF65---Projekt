@@ -10,6 +10,8 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -58,74 +60,85 @@ public class GUI {
 		Button create = new Button("Create User");
 		grid.add(create, 1, 4);
 
-		// Creates a string from userTextField input
-		if (this.userTextField.getText() != null) {
-			// Opens a new view after having created a user
-			create.setOnAction(new EventHandler<ActionEvent>() {
+		// Opens a new view after having created a user
+		create.setOnAction(new EventHandler<ActionEvent>() {
 
-				@Override
-				public void handle(ActionEvent event) {
+			@Override
+			public void handle(ActionEvent event) {
 
-					// Create FlowPane for StartPage
-					FlowPane flow = new FlowPane(50, 50);
-					flow.setAlignment(Pos.CENTER);
+				// Creates a string from userTextField input
+				if (!userTextField.getText().equals("")) {
 
-					// Create response Label
-					Label response = new Label("Select user to play against");
-
-					// Create Play button
-					Button play = new Button("Play");
-
-					// Create title for view
-					Text title = new Text("Rock, Papper & Scissors");
-
-					// Creates ObserveableList
-					ObservableList<String> users = FXCollections.observableArrayList();
-					users.add(userTextField.getText());
-					
 					// Create client
 					Client client = new Client(userTextField.getText());
 
-					ListView<String> lvUsers = new ListView<String>(users);
-					lvUsers.setPrefSize(150, 150);
+					// Try to start client
+					if (client.start()) {
 
-					// When user is clicked upon, opponents name is showing
-					MultipleSelectionModel<String> lvSelModel = lvUsers.getSelectionModel();
-					lvSelModel.selectedItemProperty().addListener((new ChangeListener<String>() {
-						public void changed(ObservableValue<? extends String> changed, String oldVal, String newVal) {
-							response.setText("You will play against: " + newVal);
-						}
-					}));
+						// Create FlowPane for StartPage
+						FlowPane flow = new FlowPane(50, 50);
+						flow.setAlignment(Pos.CENTER);
 
-					// Adds elements to FlowPane
-					flow.getChildren().add(title);
-					flow.getChildren().add(lvUsers);
-					flow.getChildren().add(response);
-					flow.getChildren().add(play);
+						// Create response Label
+						Label response = new Label("Select user to play against");
 
-					// Show stage
-					Stage stage = new Stage();
-					stage.setResizable(false);
-					stage.setTitle("Game");
-					Scene scene = new Scene(flow, 300, 350);
-					stage.setScene(scene);
-					stage.show();
+						// Create Play button
+						Button play = new Button("Play");
 
+						// Create title for view
+						Text title = new Text("Rock, Papper & Scissors");
+
+						// Creates ObserveableList
+						ObservableList<String> users = FXCollections.observableArrayList();
+						users.add(userTextField.getText());
+
+						// Creates a list view to show observable list
+						ListView<String> lvUsers = new ListView<String>(users);
+						lvUsers.setPrefSize(150, 150);
+
+						// When user is clicked upon, opponents name is showing
+						MultipleSelectionModel<String> lvSelModel = lvUsers.getSelectionModel();
+						lvSelModel.selectedItemProperty().addListener((new ChangeListener<String>() {
+							public void changed(ObservableValue<? extends String> changed, String oldVal,
+									String newVal) {
+								response.setText("You will play against: " + newVal);
+							}
+						}));
+
+						// Adds elements to FlowPane
+						flow.getChildren().add(title);
+						flow.getChildren().add(lvUsers);
+						flow.getChildren().add(response);
+						flow.getChildren().add(play);
+
+						// Show stage
+						Stage stage = new Stage();
+						stage.setResizable(false);
+						stage.setTitle("Game");
+						Scene scene = new Scene(flow, 300, 350);
+						stage.setScene(scene);
+						stage.show();
+					} else {
+						Alert alert = new Alert(AlertType.ERROR);
+						alert.setTitle("Fel");
+						alert.setHeaderText("Kunde inte skapa användaren");
+						alert.showAndWait();
+					}
+
+				} else {
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Fel");
+					alert.setHeaderText("Du måste ange ett användarnamn");
+					alert.showAndWait();
 				}
-			});
+			}
+		});
 
-		} else {
-
-			System.out.println("Type username");
-		}
-
-		// Show primaryStage
+		// Show primary stage
 		primaryStage.setResizable(false);
 		primaryStage.setTitle("User");
 		Scene scene = new Scene(grid, 300, 350);
 		primaryStage.setScene(scene);
 		primaryStage.show();
-
 	}
-
 }
