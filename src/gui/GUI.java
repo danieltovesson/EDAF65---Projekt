@@ -1,12 +1,12 @@
 package gui;
 
-import javafx.event.EventHandler;
 import client.Client;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -36,14 +36,14 @@ public class GUI {
 	 */
 	public GUI(Stage primaryStage) {
 
-		// Creates a grid pane for the userCreateWindow
+		// Creates a grid pane for the first view
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
-		// Creates sceneTitle, adds font and userTextField for typing username
+		// Creates sceneTitle and adds font
 		Text scenetitle = new Text("Enter username:");
 		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 		grid.add(scenetitle, 0, 0, 2, 1);
