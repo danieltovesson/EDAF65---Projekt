@@ -1,23 +1,24 @@
 package client;
 
 import java.io.PrintWriter;
+import java.util.Stack;
 
 public class OutputThread extends Thread {
 
 	// Variables
-	private String command;
+	private Stack<String> commands;
 	private PrintWriter out;
 
 	/**
 	 * Creates a OutputThread object
 	 * 
-	 * @param command
-	 *            the command
+	 * @param commands
+	 *            the commands
 	 * @param out
 	 *            the output stream
 	 */
-	public OutputThread(String command, PrintWriter out) {
-		this.command = command;
+	public OutputThread(Stack<String> commands, PrintWriter out) {
+		this.commands = commands;
 		this.out = out;
 	}
 
@@ -25,10 +26,9 @@ public class OutputThread extends Thread {
 
 		// Print user command to server
 		while (true) {
-			if (command != null) {
-				out.println(command);
+			if (!commands.isEmpty()) {
+				out.println(commands.pop());
 				out.flush();
-				command = null;
 			}
 		}
 	}

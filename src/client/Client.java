@@ -7,29 +7,39 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Stack;
 
 public class Client {
 
 	// Variables
+	private String name;
 	private Socket socket;
 	private InputStream is;
 	private OutputStream os;
-	private String command;
+	private Stack<String> commands;
 
 	/**
 	 * Creates a Client object
 	 * 
-	 * @param machine
-	 *            the machine of the socket
-	 * @param port
-	 *            the port of the socket
+	 * @param name
+	 *            the name of the client
 	 */
-	public Client(String clientName, String machine, int port) {
+	public Client(String name) {
+		this.name = name;
+		commands = new Stack<String>();
+	}
+
+	/**
+	 * Starts the client
+	 * 
+	 * @return true if the client were successfully started, otherwise false
+	 */
+	public boolean start() {
 
 		try {
 
 			// Create socket and get input and output streams
-			socket = new Socket(machine, port);
+			socket = new Socket("localhost", 9163);
 			is = socket.getInputStream();
 			os = socket.getOutputStream();
 			BufferedReader in = new BufferedReader(new InputStreamReader(is));
@@ -40,14 +50,17 @@ public class Client {
 			inputThread.start();
 
 			// Create new client message for the server
-			command = "nc " + clientName;
+			commands.push("newClient " + name);
 
 			// Start output stream thread
-			OutputThread outputThread = new OutputThread(command, out);
+			OutputThread outputThread = new OutputThread(commands, out);
 			outputThread.start();
+
+			return true;
 
 		} catch (IOException e) {
 			System.out.println("Connection error");
+			return false;
 		}
 	}
 
@@ -58,13 +71,33 @@ public class Client {
 	 *            the name of the client
 	 */
 	public void connectTo(String clientName) {
-		command = "c " + clientName;
+		commands.push("connectTo " + clientName);
+	}
+
+	/**
+	 * Disconnects from another client
+	 * 
+	 * @param clientName
+	 *            the name of the client
+	 */
+	public void disconnectFrom(String clientName) {
+		commands.push("disconnectFrom " + clientName);
+	}
+
+	/**
+	 * Sends a message to a connected client
+	 * 
+	 * @param message
+	 *            the message
+	 */
+	public void sendMessage(String message) {
+		commands.push("msg " + message);
 	}
 
 	/**
 	 * Quits the application
 	 */
 	public void quit() {
-		command = "q";
+		commands.push("quit");
 	}
 }

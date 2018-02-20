@@ -17,25 +17,30 @@ import classes.User;
 public class Server {
 
 	// Variables
+	private ServerSocket serverSocket;
 	private List<User> users;
 
 	public static void main(String[] args) {
-		Server s = new Server();
-		s.run();
+		Server server = new Server();
+		server.start();
 	}
 
 	/**
-	 * Runs the program
+	 * Creates a Server object
 	 */
-	private void run() {
-
-		// Initialize users list
+	public Server() {
 		users = new ArrayList<User>();
+	}
+
+	/**
+	 * Starts the server
+	 */
+	public void start() {
 
 		try {
 
 			// Start server connection
-			ServerSocket serverSocket = new ServerSocket(9163);
+			serverSocket = new ServerSocket(9163);
 
 			// Create mailbox
 			Mailbox mailbox = new Mailbox();
@@ -60,11 +65,22 @@ public class Server {
 				System.out.println("Connected to client: " + inetAddress.toString());
 
 				// Start thread for new client connection
-				Thread serverThread = new ClientThread(serverSocket, clientSocket, in, out, mailbox, users);
-				serverThread.start();
+				Thread clientServerThread = new ClientServerThread(clientSocket, in, out, mailbox, users);
+				clientServerThread.start();
 
 			}
 
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Stops the server
+	 */
+	public void stop() {
+		try {
+			serverSocket.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
