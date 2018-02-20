@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Stack;
 
 public class Client {
 
@@ -15,7 +16,7 @@ public class Client {
 	private Socket socket;
 	private InputStream is;
 	private OutputStream os;
-	private String command;
+	private Stack<String> commands;
 
 	/**
 	 * Creates a Client object
@@ -25,6 +26,7 @@ public class Client {
 	 */
 	public Client(String name) {
 		this.name = name;
+		commands = new Stack<String>();
 	}
 
 	/**
@@ -48,10 +50,10 @@ public class Client {
 			inputThread.start();
 
 			// Create new client message for the server
-			command = "newClient " + name;
+			commands.push("newClient " + name);
 
 			// Start output stream thread
-			OutputThread outputThread = new OutputThread(command, out);
+			OutputThread outputThread = new OutputThread(commands, out);
 			outputThread.start();
 
 			return true;
@@ -69,7 +71,7 @@ public class Client {
 	 *            the name of the client
 	 */
 	public void connectTo(String clientName) {
-		command = "connectTo " + clientName;
+		commands.push("connectTo " + clientName);
 	}
 
 	/**
@@ -79,7 +81,7 @@ public class Client {
 	 *            the name of the client
 	 */
 	public void disconnectFrom(String clientName) {
-		command = "disconnectFrom " + clientName;
+		commands.push("disconnectFrom " + clientName);
 	}
 
 	/**
@@ -89,13 +91,13 @@ public class Client {
 	 *            the message
 	 */
 	public void sendMessage(String message) {
-		command = "msg " + message;
+		commands.push("msg " + message);
 	}
 
 	/**
 	 * Quits the application
 	 */
 	public void quit() {
-		command = "quit";
+		commands.push("quit");
 	}
 }
