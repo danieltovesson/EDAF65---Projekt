@@ -20,6 +20,11 @@ public class Server {
 	private ServerSocket serverSocket;
 	private List<User> users;
 
+	public static void main(String[] args) {
+		Server server = new Server();
+		server.start();
+	}
+
 	/**
 	 * Creates a Server object
 	 */
