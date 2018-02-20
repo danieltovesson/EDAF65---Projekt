@@ -50,7 +50,7 @@ public class Client {
 			System.out.println("Connection error");
 		}
 	}
-	
+
 	/**
 	 * Connects to another client
 	 * 
