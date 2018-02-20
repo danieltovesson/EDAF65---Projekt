@@ -94,8 +94,7 @@ public class GUI {
 
 						// Creates ObserveableList
 						ObservableList<String> users = FXCollections.observableArrayList();
-						// TODO:
-						// Other clients must be added to the list
+						// TODO: Other clients must be added to the list
 
 						// Creates a list view to show observable list
 						ListView<String> lvUsers = new ListView<String>(users);
