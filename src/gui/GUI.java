@@ -69,8 +69,11 @@ public class GUI {
 				// Creates a string from userTextField input
 				if (!userTextField.getText().equals("")) {
 
+					// Creates ObserveableList
+					ObservableList<String> users = FXCollections.observableArrayList();
+
 					// Create client
-					Client client = new Client(userTextField.getText());
+					Client client = new Client(userTextField.getText(), users);
 
 					// Try to start client
 					if (client.start()) {
@@ -91,10 +94,6 @@ public class GUI {
 
 						// Create title for view
 						Text title = new Text("Rock, Papper & Scissors");
-
-						// Creates ObserveableList
-						ObservableList<String> users = FXCollections.observableArrayList();
-						// TODO: Other clients must be added to the list
 
 						// Creates a list view to show observable list
 						ListView<String> lvUsers = new ListView<String>(users);

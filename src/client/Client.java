@@ -9,10 +9,13 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Stack;
 
+import javafx.collections.ObservableList;
+
 public class Client {
 
 	// Variables
 	private String name;
+	private ObservableList<String> users;
 	private Socket socket;
 	private InputStream is;
 	private OutputStream os;
@@ -24,8 +27,9 @@ public class Client {
 	 * @param name
 	 *            the name of the client
 	 */
-	public Client(String name) {
+	public Client(String name, ObservableList<String> users) {
 		this.name = name;
+		this.users = users;
 		commands = new Stack<String>();
 	}
 
@@ -46,7 +50,7 @@ public class Client {
 			PrintWriter out = new PrintWriter(os, true);
 
 			// Start input stream thread
-			InputThread inputThread = new InputThread(in);
+			InputThread inputThread = new InputThread(in, users);
 			inputThread.start();
 
 			// Create new client message for the server

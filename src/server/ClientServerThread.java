@@ -64,6 +64,10 @@ public class ClientServerThread extends Thread {
 					// Adds new client to the user list
 					addUser(outputLine);
 
+					// Sends a message saying broadcast name to everyone except
+					// self
+					mailbox.setMessage(user.getName(), "all", user.getName());
+
 				} else if (inputLine.startsWith("connectTo ")) {
 
 					if (!user.isConnected()) {
