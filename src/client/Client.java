@@ -9,10 +9,15 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Stack;
 
+import gui.GUI;
+import javafx.collections.ObservableList;
+
 public class Client {
 
 	// Variables
 	private String name;
+	private ObservableList<String> users;
+	private GUI gui;
 	private Socket socket;
 	private InputStream is;
 	private OutputStream os;
@@ -23,9 +28,15 @@ public class Client {
 	 * 
 	 * @param name
 	 *            the name of the client
+	 * @param users
+	 *            the users of the game
+	 * @param gui
+	 *            the game GUI
 	 */
-	public Client(String name) {
+	public Client(String name, ObservableList<String> users, GUI gui) {
 		this.name = name;
+		this.users = users;
+		this.gui = gui;
 		commands = new Stack<String>();
 	}
 
@@ -46,7 +57,7 @@ public class Client {
 			PrintWriter out = new PrintWriter(os, true);
 
 			// Start input stream thread
-			InputThread inputThread = new InputThread(in);
+			InputThread inputThread = new InputThread(in, users, gui);
 			inputThread.start();
 
 			// Create new client message for the server

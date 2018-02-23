@@ -29,10 +29,14 @@ import javafx.stage.Stage;
 
 public class GUI {
 
+	private Stage stage;
 	private TextField userTextField;
+	private Client client;
+	private String selectedUser;
 	private List<String> list = new ArrayList<>();
+	private ListView<String> view;
 	private String p1Choice;
-	ObservableList<String> data;
+	private ObservableList<String> data;
 
 	/**
 	 * 
@@ -66,6 +70,9 @@ public class GUI {
 		Button create = new Button("Create User");
 		grid.add(create, 1, 4);
 
+		// Save reference to GUI
+		GUI gui = this;
+
 		// Opens a new view after having created a user
 		create.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -75,8 +82,11 @@ public class GUI {
 				// Creates a string from userTextField input
 				if (!userTextField.getText().equals("")) {
 
+					// Creates ObserveableList
+					ObservableList<String> users = FXCollections.observableArrayList();
+
 					// Create client
-					Client client = new Client(userTextField.getText());
+					client = new Client(userTextField.getText(), users, gui);
 
 					// Try to start client
 					if (client.start()) {
@@ -98,10 +108,6 @@ public class GUI {
 						// Create title for view
 						Text title = new Text("Rock, Papper & Scissors");
 
-						// Creates ObserveableList
-						ObservableList<String> users = FXCollections.observableArrayList();
-						// TODO: Other clients must be added to the list
-
 						// Creates a list view to show observable list
 						ListView<String> lvUsers = new ListView<String>(users);
 						lvUsers.setPrefSize(150, 150);
@@ -111,6 +117,7 @@ public class GUI {
 						lvSelModel.selectedItemProperty().addListener((new ChangeListener<String>() {
 							public void changed(ObservableValue<? extends String> changed, String oldVal,
 									String newVal) {
+								selectedUser = newVal;
 								response.setText("You will play against: " + newVal);
 							}
 						}));
@@ -122,8 +129,8 @@ public class GUI {
 						flow.getChildren().add(response);
 						flow.getChildren().add(play);
 
-						// Show stage
-						Stage stage = new Stage();
+						// Show list stage
+						stage = new Stage();
 						stage.setResizable(false);
 						stage.setTitle("Game");
 						Scene scene = new Scene(flow, 300, 400);
@@ -136,171 +143,8 @@ public class GUI {
 							@Override
 							public void handle(ActionEvent event) {
 
-								// Creating flow pane
-								FlowPane root = new FlowPane();
-								root.setHgap(10);
-								root.setVgap(10);
-								root.setPadding(new Insets(15, 15, 15, 15));
-
-								// Defining the window for the chat
-								ListView<String> view = new ListView<String>();
-								view.setPrefSize(370, 300);
-								view.setEditable(false);
-
-								// Defining the Chat text field
-								TextField chatField = new TextField();
-								chatField.setPromptText("Message");
-								chatField.getText();
-								chatField.setPrefWidth(250);
-								chatField.setTranslateX(30);
-								chatField.setTranslateY(450);
-
-								// Defining the send button
-								Button send = new Button("Send");
-								send.setTranslateX(30);
-								send.setTranslateY(450);
-
-								// Defining the rock button
-								Button rockBtn = new Button("Rock");
-								rockBtn.setTranslateX(30);
-								rockBtn.setTranslateY(350);
-
-								// Defining the paper button
-								Button paperBtn = new Button("Paper");
-								paperBtn.setTranslateX(30);
-								paperBtn.setTranslateY(350);
-
-								// Defining the scissors button
-								Button scissorsBtn = new Button("Scissors");
-								scissorsBtn.setTranslateX(30);
-								scissorsBtn.setTranslateY(350);
-
-								// Setting an action for the send button
-								send.setOnAction(new EventHandler<ActionEvent>() {
-
-									@Override
-									public void handle(ActionEvent e) {
-										// Retrieves string from TextField
-										String message = chatField.getText();
-
-										// If empty message --> do not display
-										if (message.equals("")) {
-											return;
-										}
-
-										// Adds string to ArrayList object
-										list.add("You: " + message);
-
-										// Display the string in the TableView
-										data = FXCollections.observableList(list);
-										view.setItems(data);
-
-										// Make game buttons accessible
-										rockBtn.setDisable(false);
-										paperBtn.setDisable(false);
-										scissorsBtn.setDisable(false);
-
-										// Clear the TextField after string is sent and displayed in
-										// TableView
-										chatField.clear();
-
-									}
-								});
-
-								// Setting an action for the rock button
-								rockBtn.setOnAction(new EventHandler<ActionEvent>() {
-
-									@Override
-									public void handle(ActionEvent e) {
-
-										// String to display when button is pressed
-										String message = "***...waiting for opponent...***";
-
-										// Adds string to ArrayList object
-										list.add(message);
-
-										// Display the string in the TableView
-										data = FXCollections.observableList(list);
-										view.setItems(data);
-
-										// Make game buttons unaccessible until opponent makes a move
-										rockBtn.setDisable(true);
-										paperBtn.setDisable(true);
-										scissorsBtn.setDisable(true);
-
-										// Player1s choice is set
-										p1Choice = "rock";
-										System.out.println(p1Choice);
-
-									}
-
-								});
-
-								// Setting an action for the paper button
-								paperBtn.setOnAction(new EventHandler<ActionEvent>() {
-
-									@Override
-									public void handle(ActionEvent e) {
-
-										// String to display when button is pressed
-										String message = "***...waiting for opponent...***";
-
-										// Adds string to ArrayList object
-										list.add(message);
-
-										// Display the string in the TableView
-										data = FXCollections.observableList(list);
-										view.setItems(data);
-
-										// Make game buttons unaccessible until opponent makes a move
-										rockBtn.setDisable(true);
-										paperBtn.setDisable(true);
-										scissorsBtn.setDisable(true);
-
-										// Player1s choice is set
-										p1Choice = "paper";
-										System.out.println(p1Choice);
-
-									}
-
-								});
-
-								// Setting an action for the scissors button
-								scissorsBtn.setOnAction(new EventHandler<ActionEvent>() {
-
-									@Override
-									public void handle(ActionEvent e) {
-
-										// String to display when button is pressed
-										String message = "***...waiting for opponent...***";
-
-										// Adds string to ArrayList object
-										list.add(message);
-
-										// Display the string in the TableView
-										data = FXCollections.observableList(list);
-										view.setItems(data);
-
-										// Make game buttons unaccessible until opponent makes a move
-										rockBtn.setDisable(true);
-										paperBtn.setDisable(true);
-										scissorsBtn.setDisable(true);
-
-										// Player1s choice is set
-										p1Choice = "scissors";
-										System.out.println(p1Choice);
-
-									}
-
-								});
-
-								// Add all components to the FlowPane and make it visible
-								Stage gameStage = new Stage();
-								stage.setTitle("GameView");
-								root.getChildren().addAll(send, chatField, rockBtn, paperBtn, scissorsBtn, view);
-								Scene gameScene = new Scene(root, 500, 250);
-								gameStage.setScene(gameScene);
-								gameStage.show();
+								// Try to connect users
+								client.connectTo(selectedUser);
 
 							}
 
@@ -330,5 +174,180 @@ public class GUI {
 		Scene scene = new Scene(grid, 300, 350);
 		primaryStage.setScene(scene);
 		primaryStage.show();
+	}
+
+	/**
+	 * Show game view
+	 */
+	public void showGameView() {
+
+		// Creating flow pane
+		FlowPane root = new FlowPane();
+		root.setHgap(10);
+		root.setVgap(10);
+		root.setPadding(new Insets(15, 15, 15, 15));
+
+		// Defining the window for the chat
+		view = new ListView<String>();
+		view.setPrefSize(370, 300);
+		view.setEditable(false);
+
+		// Defining the Chat text field
+		TextField chatField = new TextField();
+		chatField.setPromptText("Message");
+		chatField.getText();
+		chatField.setPrefWidth(250);
+		chatField.setTranslateX(30);
+		chatField.setTranslateY(450);
+
+		// Defining the send button
+		Button send = new Button("Send");
+		send.setTranslateX(30);
+		send.setTranslateY(450);
+
+		// Defining the rock button
+		Button rockBtn = new Button("Rock");
+		rockBtn.setTranslateX(30);
+		rockBtn.setTranslateY(350);
+
+		// Defining the paper button
+		Button paperBtn = new Button("Paper");
+		paperBtn.setTranslateX(30);
+		paperBtn.setTranslateY(350);
+
+		// Defining the scissors button
+		Button scissorsBtn = new Button("Scissors");
+		scissorsBtn.setTranslateX(30);
+		scissorsBtn.setTranslateY(350);
+
+		// Setting an action for the send button
+		send.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent e) {
+
+				// Retrieves string from TextField
+				String message = chatField.getText();
+
+				// If empty message --> do not display
+				if (message.equals("")) {
+					return;
+				}
+
+				// Send message
+				client.sendMessage(message);
+
+				// Clear the TextField after string is sent and displayed in
+				// TableView
+				chatField.clear();
+
+			}
+		});
+
+		// Setting an action for the rock button
+		rockBtn.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent e) {
+
+				// String to display when button is pressed
+				String message = "***...waiting for opponent...***";
+
+				// Adds string to ArrayList object
+				list.add(message);
+
+				// Display the string in the TableView
+				data = FXCollections.observableList(list);
+				view.setItems(data);
+
+				// Make game buttons unaccessible until opponent makes a move
+				rockBtn.setDisable(true);
+				paperBtn.setDisable(true);
+				scissorsBtn.setDisable(true);
+
+				// Player1s choice is set
+				p1Choice = "rock";
+				System.out.println(p1Choice);
+
+			}
+
+		});
+
+		// Setting an action for the paper button
+		paperBtn.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent e) {
+
+				// String to display when button is pressed
+				String message = "***...waiting for opponent...***";
+
+				// Adds string to ArrayList object
+				list.add(message);
+
+				// Display the string in the TableView
+				data = FXCollections.observableList(list);
+				view.setItems(data);
+
+				// Make game buttons unaccessible until opponent makes a move
+				rockBtn.setDisable(true);
+				paperBtn.setDisable(true);
+				scissorsBtn.setDisable(true);
+
+				// Player1s choice is set
+				p1Choice = "paper";
+				System.out.println(p1Choice);
+
+			}
+
+		});
+
+		// Setting an action for the scissors button
+		scissorsBtn.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent e) {
+
+				// String to display when button is pressed
+				String message = "***...waiting for opponent...***";
+
+				// Adds string to ArrayList object
+				list.add(message);
+
+				// Display the string in the TableView
+				data = FXCollections.observableList(list);
+				view.setItems(data);
+
+				// Make game buttons unaccessible until opponent makes a move
+				rockBtn.setDisable(true);
+				paperBtn.setDisable(true);
+				scissorsBtn.setDisable(true);
+
+				// Player1s choice is set
+				p1Choice = "scissors";
+				System.out.println(p1Choice);
+
+			}
+
+		});
+
+		// Add all components to the FlowPane and make it visible
+		Stage gameStage = new Stage();
+		stage.setTitle("GameView");
+		root.getChildren().addAll(send, chatField, rockBtn, paperBtn, scissorsBtn, view);
+		Scene gameScene = new Scene(root, 500, 250);
+		gameStage.setScene(gameScene);
+		gameStage.show();
+	}
+
+	public void addMessage(String message) {
+
+		// Adds string to ArrayList object
+		list.add(message);
+
+		// Display the string in the TableView
+		data = FXCollections.observableList(list);
+		view.setItems(data);
+
 	}
 }

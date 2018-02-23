@@ -41,13 +41,33 @@ public class EmptyMailboxThread extends Thread {
 				connectedUsers.add(message[0]);
 				connectedUsers.add(message[1]);
 
-				for (User user : users) {
-					if (connectedUsers.contains(user.getName())) {
+				// Checks who the message should be sent to
+				if (connectedUsers.get(1).equals("all")) {
 
-						// Prints the message
-						PrintWriter out = user.getPrintWriter();
-						out.println(message[2]);
-						out.flush();
+					for (User user : users) {
+
+						for (User u : users) {
+
+							// Prints the name of the user to everyone but self
+							if (!user.getName().equals(u.getName())) {
+								PrintWriter out = user.getPrintWriter();
+								out.println("list " + u.getName());
+								out.flush();
+							}
+						}
+					}
+				} else {
+
+					for (User user : users) {
+
+						// Checks if the users are connected
+						if (connectedUsers.contains(user.getName())) {
+
+							// Prints the message to the users
+							PrintWriter out = user.getPrintWriter();
+							out.println("msg " + message[2]);
+							out.flush();
+						}
 					}
 				}
 			}

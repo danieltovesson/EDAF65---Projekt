@@ -64,6 +64,10 @@ public class ClientServerThread extends Thread {
 					// Adds new client to the user list
 					addUser(outputLine);
 
+					// Sends a message saying broadcast name to everyone except
+					// self
+					mailbox.setMessage(user.getName(), "all", user.getName());
+
 				} else if (inputLine.startsWith("connectTo ")) {
 
 					if (!user.isConnected()) {
@@ -77,8 +81,15 @@ public class ClientServerThread extends Thread {
 
 									// Connect users if neither is connected
 									if (!u.isConnected()) {
+
+										// Connect users
 										user.connect(outputLine);
 										u.connect(user.getName());
+
+										// Say users got connected
+										out.println("connected");
+										u.getPrintWriter().println("connected");
+
 									} else {
 										out.println("Server: Requested user already connected");
 										out.flush();
@@ -116,8 +127,15 @@ public class ClientServerThread extends Thread {
 									// Disconnect users if neither is
 									// disconnected
 									if (u.isConnected()) {
+
+										// Disconnect users
 										user.disconnect();
 										u.disconnect();
+
+										// Say users got disconnected
+										out.println("disconnected");
+										u.getPrintWriter().println("disconnected");
+
 									} else {
 										out.println("Server: Requested user not connected");
 										out.flush();
