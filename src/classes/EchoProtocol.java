@@ -16,6 +16,8 @@ public class EchoProtocol {
 			input = input.substring(10);
 		} else if (input.startsWith("disconnectFrom ")) {
 			input = input.substring(15);
+		} else if (input.startsWith("list ")) {
+			input = input.substring(5);
 		} else if (input.startsWith("msg ")) {
 			input = input.substring(4);
 		}

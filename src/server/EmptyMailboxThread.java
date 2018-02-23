@@ -50,7 +50,7 @@ public class EmptyMailboxThread extends Thread {
 							// Prints the name of the user to everyone but self
 							if (!user.getName().equals(u.getName())) {
 								PrintWriter out = user.getPrintWriter();
-								out.println(u.getName());
+								out.println("list " + u.getName());
 								out.flush();
 							}
 						}
@@ -63,7 +63,7 @@ public class EmptyMailboxThread extends Thread {
 
 							// Prints the message
 							PrintWriter out = user.getPrintWriter();
-							out.println(message[2]);
+							out.println("msg " + message[2]);
 							out.flush();
 						}
 					}
