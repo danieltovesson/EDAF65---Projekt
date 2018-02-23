@@ -41,6 +41,7 @@ public class EmptyMailboxThread extends Thread {
 				connectedUsers.add(message[0]);
 				connectedUsers.add(message[1]);
 
+				// Checks who the message should be sent to
 				if (connectedUsers.get(1).equals("all")) {
 
 					for (User user : users) {
@@ -59,9 +60,10 @@ public class EmptyMailboxThread extends Thread {
 
 					for (User user : users) {
 
+						// Checks if the users are connected
 						if (connectedUsers.contains(user.getName())) {
 
-							// Prints the message
+							// Prints the message to the users
 							PrintWriter out = user.getPrintWriter();
 							out.println("msg " + message[2]);
 							out.flush();
