@@ -31,8 +31,10 @@ public class GUI {
 
 	private Stage stage;
 	private TextField userTextField;
+	private Client client;
 	private String selectedUser;
 	private List<String> list = new ArrayList<>();
+	private ListView<String> view;
 	private String p1Choice;
 	private ObservableList<String> data;
 
@@ -84,7 +86,7 @@ public class GUI {
 					ObservableList<String> users = FXCollections.observableArrayList();
 
 					// Create client
-					Client client = new Client(userTextField.getText(), users, gui);
+					client = new Client(userTextField.getText(), users, gui);
 
 					// Try to start client
 					if (client.start()) {
@@ -186,7 +188,7 @@ public class GUI {
 		root.setPadding(new Insets(15, 15, 15, 15));
 
 		// Defining the window for the chat
-		ListView<String> view = new ListView<String>();
+		view = new ListView<String>();
 		view.setPrefSize(370, 300);
 		view.setEditable(false);
 
@@ -232,21 +234,13 @@ public class GUI {
 					return;
 				}
 
-				// Adds string to ArrayList object
-				list.add("You: " + message);
-
-				// Display the string in the TableView
-				data = FXCollections.observableList(list);
-				view.setItems(data);
-
-				// Make game buttons accessible
-				rockBtn.setDisable(false);
-				paperBtn.setDisable(false);
-				scissorsBtn.setDisable(false);
+				// Send message
+				client.sendMessage(message);
 
 				// Clear the TextField after string is sent and displayed in
 				// TableView
 				chatField.clear();
+
 			}
 		});
 
@@ -344,5 +338,16 @@ public class GUI {
 		Scene gameScene = new Scene(root, 500, 250);
 		gameStage.setScene(gameScene);
 		gameStage.show();
+	}
+
+	public void addMessage(String message) {
+
+		// Adds string to ArrayList object
+		list.add(message);
+
+		// Display the string in the TableView
+		data = FXCollections.observableList(list);
+		view.setItems(data);
+
 	}
 }

@@ -52,7 +52,7 @@ public class InputThread extends Thread {
 				} else if (inputLine.equals("disconnected")) {
 					// TODO: Add functionality when disconnecting
 				} else if (inputLine.startsWith("msg ")) {
-					// TODO: Add to chat window
+					gui.addMessage(outputLine);
 				} else {
 					System.out.println(outputLine);
 				}
