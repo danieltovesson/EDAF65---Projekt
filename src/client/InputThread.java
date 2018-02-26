@@ -44,7 +44,9 @@ public class InputThread extends Thread {
 
 				if (inputLine.startsWith("list ")) {
 					// Add user to users list
-					users.add(outputLine);
+					if (!users.contains(outputLine)) {
+						users.add(outputLine);
+					}
 				} else if (inputLine.equals("connected")) {
 					// Show game view for connected users
 					Platform.runLater(() -> {
