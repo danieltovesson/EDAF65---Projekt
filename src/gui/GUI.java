@@ -417,8 +417,17 @@ public class GUI {
 	public void setResult(String user, String result) {
 
 		if (result.equals("draw")) {
+
+			// Print it's a draw message
 			list.add("It's a draw!");
 		} else {
+
+			// Print winner
+			if (user.equals(client.getName())) {
+				user = "You";
+			} else {
+				user = "Your opponent";
+			}
 			list.add(user + " " + result);
 		}
 
