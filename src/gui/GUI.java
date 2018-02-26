@@ -32,6 +32,7 @@ import javafx.stage.WindowEvent;
 public class GUI {
 
 	private Stage stage;
+	private TextField serverTextField;
 	private Stage gameStage;
 	private TextField userTextField;
 	private Client client;
@@ -59,21 +60,34 @@ public class GUI {
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
 		// Creates sceneTitle and adds font
-		Text scenetitle = new Text("Enter username:");
-		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-		grid.add(scenetitle, 0, 0, 2, 1);
+		Text serverTitle = new Text("Enter server:");
+		serverTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+		grid.add(serverTitle, 0, 0, 2, 1);
+
+		// Creates a label
+		Label server = new Label("Server: ");
+		grid.add(server, 0, 1);
+
+		// Creates a text field
+		serverTextField = new TextField();
+		grid.add(serverTextField, 1, 1);
+
+		// Creates sceneTitle and adds font
+		Text sceneTitle = new Text("Enter username:");
+		sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+		grid.add(sceneTitle, 0, 2, 2, 1);
 
 		// Creates a label
 		Label userName = new Label("Username: ");
-		grid.add(userName, 0, 1);
+		grid.add(userName, 0, 3);
 
 		// Creates a text field
 		userTextField = new TextField();
-		grid.add(userTextField, 1, 1);
+		grid.add(userTextField, 1, 3);
 
 		// Create "Create User: " button
 		Button create = new Button("Create User");
-		grid.add(create, 1, 4);
+		grid.add(create, 1, 5);
 
 		// Save reference to GUI
 		GUI gui = this;
@@ -85,13 +99,13 @@ public class GUI {
 			public void handle(ActionEvent event) {
 
 				// Creates a string from userTextField input
-				if (!userTextField.getText().equals("")) {
+				if (!userTextField.getText().equals("") && !serverTextField.getText().equals("")) {
 
 					// Creates ObserveableList
 					ObservableList<String> users = FXCollections.observableArrayList();
 
 					// Create client
-					client = new Client(userTextField.getText(), users, gui);
+					client = new Client(userTextField.getText(), users, gui, serverTextField.getText());
 
 					// Try to start client
 					if (client.start()) {
@@ -403,8 +417,17 @@ public class GUI {
 	public void setResult(String user, String result) {
 
 		if (result.equals("draw")) {
+
+			// Print it's a draw message
 			list.add("It's a draw!");
 		} else {
+
+			// Print winner
+			if (user.equals(client.getName())) {
+				user = "You";
+			} else {
+				user = "Your opponent";
+			}
 			list.add(user + " " + result);
 		}
 

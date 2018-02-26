@@ -18,6 +18,7 @@ public class Client {
 	private String name;
 	private ObservableList<String> users;
 	private GUI gui;
+	private String server;
 	private Socket socket;
 	private InputStream is;
 	private OutputStream os;
@@ -33,7 +34,7 @@ public class Client {
 	 * @param gui
 	 *            the game GUI
 	 */
-	public Client(String name, ObservableList<String> users, GUI gui) {
+	public Client(String name, ObservableList<String> users, GUI gui, String server) {
 		this.name = name;
 		this.users = users;
 		this.gui = gui;
@@ -50,7 +51,7 @@ public class Client {
 		try {
 
 			// Create socket and get input and output streams
-			socket = new Socket("localhost", 9163);
+			socket = new Socket(server, 9163);
 			is = socket.getInputStream();
 			os = socket.getOutputStream();
 			BufferedReader in = new BufferedReader(new InputStreamReader(is));
