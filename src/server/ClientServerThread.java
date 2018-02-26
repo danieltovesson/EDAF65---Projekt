@@ -113,16 +113,19 @@ public class ClientServerThread extends Thread {
 						out.flush();
 					}
 
-				} else if (inputLine.startsWith("disconnectFrom ")) {
+				} else if (inputLine.equals("disconnect")) {
 
 					if (user.isConnected()) {
 
-						if (!user.getName().equals(outputLine)) {
+						// Get users opponents
+						String opponent = user.getConnection();
+
+						if (!user.getName().equals(opponent)) {
 
 							// Disconnect users
 							boolean found = false;
 							for (User u : users) {
-								if (u.getName().equals(outputLine)) {
+								if (u.getName().equals(opponent)) {
 
 									// Disconnect users if neither is
 									// disconnected

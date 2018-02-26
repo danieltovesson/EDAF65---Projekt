@@ -95,13 +95,10 @@ public class Client {
 	}
 
 	/**
-	 * Disconnects from another client
-	 * 
-	 * @param clientName
-	 *            the name of the client
+	 * Disconnects opponents
 	 */
-	public void disconnectFrom(String clientName) {
-		commands.push("disconnectFrom " + clientName);
+	public void disconnectFromOpponent() {
+		commands.push("disconnect");
 	}
 
 	/**

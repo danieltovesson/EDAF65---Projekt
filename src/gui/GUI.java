@@ -32,6 +32,7 @@ import javafx.stage.WindowEvent;
 public class GUI {
 
 	private Stage stage;
+	private Stage gameStage;
 	private TextField userTextField;
 	private Client client;
 	private String selectedUser;
@@ -297,12 +298,35 @@ public class GUI {
 		});
 
 		// Add all components to the FlowPane and make it visible
-		Stage gameStage = new Stage();
+		gameStage = new Stage();
 		stage.setTitle("GameView");
 		root.getChildren().addAll(send, chatField, rockBtn, paperBtn, scissorsBtn, userName, view);
 		Scene gameScene = new Scene(root, 500, 250);
 		gameStage.setScene(gameScene);
 		gameStage.show();
+
+		// Check if user closes window
+		gameStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+			@Override
+			public void handle(WindowEvent event) {
+				Platform.runLater(new Runnable() {
+
+					@Override
+					public void run() {
+						// Disconnect users
+						client.disconnectFromOpponent();
+					}
+				});
+			}
+		});
+	}
+
+	/**
+	 * Closes game view
+	 */
+	public void closeGameView() {
+		gameStage.hide();
 	}
 
 	/**

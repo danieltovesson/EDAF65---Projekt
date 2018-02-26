@@ -51,7 +51,10 @@ public class InputThread extends Thread {
 						gui.showGameView();
 					});
 				} else if (inputLine.equals("disconnected")) {
-					// TODO: Add functionality when disconnecting
+					// Close game view for connected users
+					Platform.runLater(() -> {
+						gui.closeGameView();
+					});
 				} else if (inputLine.startsWith("msg ")) {
 					// Show message for connected users
 					gui.addMessage(outputLine);
