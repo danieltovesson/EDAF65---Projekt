@@ -37,7 +37,7 @@ public class GameLogic {
 			resClient1 = "draw";
 			resClient2 = "draw";
 			System.out.println("It's a draw.");
-		} else if (inputClient1.equals("rock") && inputClient2.equals("scissor")) {
+		} else if (inputClient1.equals("rock") && inputClient2.equals("scissors")) {
 			// Takes user1's input as well as user2's. If it's rock,
 			// respectively
 			// scissor
@@ -46,7 +46,7 @@ public class GameLogic {
 			resClient1 = "win";
 			resClient2 = "lose";
 			System.out.println("Player one wins.");
-		} else if (inputClient1.equals("scissor") && inputClient2.equals("rock")) {
+		} else if (inputClient1.equals("scissors") && inputClient2.equals("rock")) {
 			// Takes user1's input as well as user2's. If it's scissor,
 			// respectively rock
 			// user2 wins. It then outputs "Player two wins" to server and binds
@@ -72,7 +72,7 @@ public class GameLogic {
 			resClient1 = "win";
 			resClient2 = "lose";
 			System.out.println("Player one wins.");
-		} else if (inputClient1.equals("scissor") && inputClient2.equals("paper")) {
+		} else if (inputClient1.equals("scissors") && inputClient2.equals("paper")) {
 			// Takes user1's input as well as user2's. If it's scissor,
 			// respectively paper
 			// user1 wins. It then outputs "Player one wins" to server and binds
@@ -80,7 +80,7 @@ public class GameLogic {
 			resClient1 = "win";
 			resClient2 = "lose";
 			System.out.println("Player one wins.");
-		} else if (inputClient1.equals("paper") && inputClient2.equals("scissor")) {
+		} else if (inputClient1.equals("paper") && inputClient2.equals("scissors")) {
 			// Takes user1's input as well as user2's. If it's rock,
 			// respectively
 			// scissor
