@@ -42,17 +42,30 @@ public class InputThread extends Thread {
 				// Process user input
 				outputLine = ep.processInput(inputLine);
 
-				// Add user to users list
 				if (inputLine.startsWith("list ")) {
+					// Add user to users list
 					users.add(outputLine);
 				} else if (inputLine.equals("connected")) {
+					// Show game view for connected users
 					Platform.runLater(() -> {
 						gui.showGameView();
 					});
 				} else if (inputLine.equals("disconnected")) {
-					// TODO: Add functionality when disconnecting
+					// Close game view for connected users
+					Platform.runLater(() -> {
+						gui.closeGameView();
+					});
 				} else if (inputLine.startsWith("msg ")) {
+					// Show message for connected users
 					gui.addMessage(outputLine);
+				} else if (inputLine.startsWith("choice ")) {
+					// Set choice for connected users
+					String[] cmds = outputLine.split(" ");
+					gui.setChoice(cmds[0], cmds[1]);
+				} else if (inputLine.startsWith("result ")) {
+					// Set result for connected users
+					String[] cmds = outputLine.split(" ");
+					gui.setResult(cmds[0], cmds[1]);
 				} else {
 					System.out.println(outputLine);
 				}

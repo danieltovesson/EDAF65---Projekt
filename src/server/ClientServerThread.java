@@ -113,16 +113,19 @@ public class ClientServerThread extends Thread {
 						out.flush();
 					}
 
-				} else if (inputLine.startsWith("disconnectFrom ")) {
+				} else if (inputLine.equals("disconnect")) {
 
 					if (user.isConnected()) {
 
-						if (!user.getName().equals(outputLine)) {
+						// Get users opponents
+						String opponent = user.getConnection();
+
+						if (!user.getName().equals(opponent)) {
 
 							// Disconnect users
 							boolean found = false;
 							for (User u : users) {
-								if (u.getName().equals(outputLine)) {
+								if (u.getName().equals(opponent)) {
 
 									// Disconnect users if neither is
 									// disconnected
@@ -165,14 +168,67 @@ public class ClientServerThread extends Thread {
 					if (user.isConnected()) {
 						String timestamp = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss").format(new Date());
 						String message = timestamp + " " + user.getName() + ": " + outputLine;
-						mailbox.setMessage(user.getName(), user.getConnection(), message);
+						mailbox.setMessage(user.getName(), user.getConnection(), "msg " + message);
 					}
 
-				} else if (inputLine.equals("quit")) {
+				} else if (inputLine.startsWith("choice ")) {
 
-					// Remove user and close socket if user quits
-					removeUser();
-					clientSocket.close();
+					if (user.isConnected()) {
+
+						// Get user opponent
+						User opponent = null;
+						for (User u : users) {
+							if (u.getName().equals(user.getConnection())) {
+								opponent = u;
+								break;
+							}
+						}
+						if (user.getChoice() == null) {
+
+							// Set user choice
+							user.setChoice(outputLine);
+
+							// Check if opponent has made choice
+							if (opponent.getChoice() == null) {
+
+								// Send choice
+								mailbox.setMessage(user.getName(), user.getConnection(),
+										"choice " + user.getName() + " " + user.getChoice());
+							} else {
+
+								// Calculate who wins
+								GameLogic gl = new GameLogic(user.getChoice(), opponent.getChoice());
+								gl.checkWinner();
+
+								// Send choice
+								mailbox.setMessage(user.getName(), user.getConnection(),
+										"choice " + user.getName() + " " + user.getChoice());
+
+								// Reset choices
+								user.resetChoice();
+								opponent.resetChoice();
+
+								// Send result
+								mailbox.setMessage(user.getName(), user.getConnection(),
+										"result " + user.getName() + " " + gl.client1_Msg());
+							}
+						} else {
+							out.println("Server: You have already made a choice");
+							out.flush();
+						}
+					}
+
+				} else if (inputLine.startsWith("quit ")) {
+
+					if (user.getName().equals(outputLine)) {
+						// Remove user and close socket if user quits
+						removeUser();
+						clientSocket.close();
+					} else {
+						// Sends message to all other clients to update list
+						mailbox.setMessage(user.getName(), "all", "");
+						// TODO: not called
+					}
 					break;
 
 				}

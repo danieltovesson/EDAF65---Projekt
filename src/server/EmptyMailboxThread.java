@@ -65,7 +65,7 @@ public class EmptyMailboxThread extends Thread {
 
 							// Prints the message to the users
 							PrintWriter out = user.getPrintWriter();
-							out.println("msg " + message[2]);
+							out.println(message[2]);
 							out.flush();
 						}
 					}
