@@ -20,6 +20,10 @@ public class EchoProtocol {
 			input = input.substring(5);
 		} else if (input.startsWith("msg ")) {
 			input = input.substring(4);
+		} else if (input.startsWith("choice ")) {
+			input = input.substring(7);
+		} else if (input.startsWith("result ")) {
+			input = input.substring(7);
 		}
 		return input;
 	}

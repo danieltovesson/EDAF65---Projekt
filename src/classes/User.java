@@ -9,6 +9,7 @@ public class User {
 	private PrintWriter out;
 	private boolean connected;
 	private String connection;
+	private String choice;
 
 	/**
 	 * Creates a User object
@@ -68,6 +69,32 @@ public class User {
 	 */
 	public String getConnection() {
 		return connection;
+	}
+
+	/**
+	 * Set the choice of the user
+	 * 
+	 * @param choice
+	 *            the users choice
+	 */
+	public void setChoice(String choice) {
+		this.choice = choice;
+	}
+
+	/**
+	 * Gets the choice of the user
+	 * 
+	 * @return the users choice
+	 */
+	public String getChoice() {
+		return choice;
+	}
+
+	/**
+	 * Resets the users choice
+	 */
+	public void resetChoice() {
+		choice = null;
 	}
 
 	/**

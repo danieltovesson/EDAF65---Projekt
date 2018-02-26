@@ -76,6 +76,15 @@ public class Client {
 	}
 
 	/**
+	 * Gets the name of the client
+	 * 
+	 * @return the name of the client
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
 	 * Connects to another client
 	 * 
 	 * @param clientName
@@ -103,6 +112,16 @@ public class Client {
 	 */
 	public void sendMessage(String message) {
 		commands.push("msg " + message);
+	}
+
+	/**
+	 * Sends the choice to a connected client
+	 * 
+	 * @param choice
+	 *            the choice
+	 */
+	public void setChoice(String choice) {
+		commands.push("choice " + choice);
 	}
 
 	/**

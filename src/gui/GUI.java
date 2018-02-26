@@ -35,8 +35,10 @@ public class GUI {
 	private String selectedUser;
 	private List<String> list = new ArrayList<>();
 	private ListView<String> view;
-	private String p1Choice;
 	private ObservableList<String> data;
+	private Button rockBtn;
+	private Button paperBtn;
+	private Button scissorsBtn;
 
 	/**
 	 * 
@@ -206,17 +208,17 @@ public class GUI {
 		send.setTranslateY(450);
 
 		// Defining the rock button
-		Button rockBtn = new Button("Rock");
+		rockBtn = new Button("Rock");
 		rockBtn.setTranslateX(30);
 		rockBtn.setTranslateY(350);
 
 		// Defining the paper button
-		Button paperBtn = new Button("Paper");
+		paperBtn = new Button("Paper");
 		paperBtn.setTranslateX(30);
 		paperBtn.setTranslateY(350);
 
 		// Defining the scissors button
-		Button scissorsBtn = new Button("Scissors");
+		scissorsBtn = new Button("Scissors");
 		scissorsBtn.setTranslateX(30);
 		scissorsBtn.setTranslateY(350);
 
@@ -249,28 +251,8 @@ public class GUI {
 
 			@Override
 			public void handle(ActionEvent e) {
-
-				// String to display when button is pressed
-				String message = "***...waiting for opponent...***";
-
-				// Adds string to ArrayList object
-				list.add(message);
-
-				// Display the string in the TableView
-				data = FXCollections.observableList(list);
-				view.setItems(data);
-
-				// Make game buttons unaccessible until opponent makes a move
-				rockBtn.setDisable(true);
-				paperBtn.setDisable(true);
-				scissorsBtn.setDisable(true);
-
-				// Player1s choice is set
-				p1Choice = "rock";
-				System.out.println(p1Choice);
-
+				setPlayerChoice("rock");
 			}
-
 		});
 
 		// Setting an action for the paper button
@@ -278,28 +260,8 @@ public class GUI {
 
 			@Override
 			public void handle(ActionEvent e) {
-
-				// String to display when button is pressed
-				String message = "***...waiting for opponent...***";
-
-				// Adds string to ArrayList object
-				list.add(message);
-
-				// Display the string in the TableView
-				data = FXCollections.observableList(list);
-				view.setItems(data);
-
-				// Make game buttons unaccessible until opponent makes a move
-				rockBtn.setDisable(true);
-				paperBtn.setDisable(true);
-				scissorsBtn.setDisable(true);
-
-				// Player1s choice is set
-				p1Choice = "paper";
-				System.out.println(p1Choice);
-
+				setPlayerChoice("paper");
 			}
-
 		});
 
 		// Setting an action for the scissors button
@@ -307,28 +269,8 @@ public class GUI {
 
 			@Override
 			public void handle(ActionEvent e) {
-
-				// String to display when button is pressed
-				String message = "***...waiting for opponent...***";
-
-				// Adds string to ArrayList object
-				list.add(message);
-
-				// Display the string in the TableView
-				data = FXCollections.observableList(list);
-				view.setItems(data);
-
-				// Make game buttons unaccessible until opponent makes a move
-				rockBtn.setDisable(true);
-				paperBtn.setDisable(true);
-				scissorsBtn.setDisable(true);
-
-				// Player1s choice is set
-				p1Choice = "scissors";
-				System.out.println(p1Choice);
-
+				setPlayerChoice("scissors");
 			}
-
 		});
 
 		// Add all components to the FlowPane and make it visible
@@ -340,6 +282,25 @@ public class GUI {
 		gameStage.show();
 	}
 
+	/**
+	 * Sets the players choice
+	 * 
+	 * @param choice
+	 *            the choice
+	 */
+	private void setPlayerChoice(String choice) {
+
+		// Set client choice
+		client.setChoice(choice);
+
+	}
+
+	/**
+	 * Adds a message to the chat window
+	 * 
+	 * @param message
+	 *            the message to add
+	 */
 	public void addMessage(String message) {
 
 		// Adds string to ArrayList object
@@ -349,5 +310,59 @@ public class GUI {
 		data = FXCollections.observableList(list);
 		view.setItems(data);
 
+	}
+
+	/**
+	 * Sets the choice of the opponents
+	 * 
+	 * @param user
+	 *            the user who made the choice
+	 * @param choice
+	 *            the choice
+	 */
+	public void setChoice(String user, String choice) {
+
+		if (client.getName().equals(user)) {
+			// Adds string to ArrayList object
+			list.add("You choose " + choice);
+
+			// Make game buttons unaccessible
+			rockBtn.setDisable(true);
+			paperBtn.setDisable(true);
+			scissorsBtn.setDisable(true);
+
+		} else {
+			list.add("Your opponent has chosen!");
+		}
+
+		// Display the string in the TableView
+		data = FXCollections.observableList(list);
+		view.setItems(data);
+	}
+
+	/**
+	 * Sets the result of the opponents
+	 * 
+	 * @param user
+	 *            the user who got the result
+	 * @param result
+	 *            the result
+	 */
+	public void setResult(String user, String result) {
+
+		if (result.equals("draw")) {
+			list.add("It's a draw!");
+		} else {
+			list.add(user + " " + result);
+		}
+
+		// Make game buttons accessible
+		rockBtn.setDisable(false);
+		paperBtn.setDisable(false);
+		scissorsBtn.setDisable(false);
+
+		// Display the string in the TableView
+		data = FXCollections.observableList(list);
+		view.setItems(data);
 	}
 }
