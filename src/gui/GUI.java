@@ -372,7 +372,9 @@ public class GUI {
 	 */
 	public void setChoice(String user, String choice) {
 
+		// Checks if the client or the opponent made the choice
 		if (client.getName().equals(user)) {
+
 			// Adds string to ArrayList object
 			list.add("You choose " + choice);
 
