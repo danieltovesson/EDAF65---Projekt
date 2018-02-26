@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import client.Client;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -26,6 +27,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class GUI {
 
@@ -138,6 +140,7 @@ public class GUI {
 						Scene scene = new Scene(flow, 300, 400);
 						stage.setScene(scene);
 						stage.show();
+						primaryStage.hide();
 
 						// Opens a new view when play button is pushed
 						play.setOnAction(new EventHandler<ActionEvent>() {
@@ -150,6 +153,22 @@ public class GUI {
 
 							}
 
+						});
+
+						// Check if user closes window
+						stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+							@Override
+							public void handle(WindowEvent event) {
+								Platform.runLater(new Runnable() {
+
+									@Override
+									public void run() {
+										// Remove user and close socket
+										client.quit();
+									}
+								});
+							}
 						});
 
 					} else {

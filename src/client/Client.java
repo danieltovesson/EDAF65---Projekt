@@ -128,6 +128,6 @@ public class Client {
 	 * Quits the application
 	 */
 	public void quit() {
-		commands.push("quit");
+		commands.push("quit " + name);
 	}
 }

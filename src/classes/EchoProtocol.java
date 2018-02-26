@@ -24,6 +24,8 @@ public class EchoProtocol {
 			input = input.substring(7);
 		} else if (input.startsWith("result ")) {
 			input = input.substring(7);
+		} else if (input.startsWith("quit ")) {
+			input = input.substring(5);
 		}
 		return input;
 	}

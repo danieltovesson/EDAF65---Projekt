@@ -215,11 +215,17 @@ public class ClientServerThread extends Thread {
 						}
 					}
 
-				} else if (inputLine.equals("quit")) {
+				} else if (inputLine.startsWith("quit ")) {
 
-					// Remove user and close socket if user quits
-					removeUser();
-					clientSocket.close();
+					if (user.getName().equals(outputLine)) {
+						// Remove user and close socket if user quits
+						removeUser();
+						clientSocket.close();
+					} else {
+						// Sends message to all other clients to update list
+						mailbox.setMessage(user.getName(), "all", "");
+						// TODO: not called
+					}
 					break;
 
 				}
