@@ -213,6 +213,10 @@ public class GUI {
 		view.setPrefSize(370, 300);
 		view.setEditable(false);
 
+		// Creating label to show user name
+		Label userName = new Label("Active as: " + userTextField.getText());
+		userName.setAlignment(Pos.CENTER);
+
 		// Defining the Chat text field
 		TextField chatField = new TextField();
 		chatField.setPromptText("Message");
@@ -295,7 +299,7 @@ public class GUI {
 		// Add all components to the FlowPane and make it visible
 		Stage gameStage = new Stage();
 		stage.setTitle("GameView");
-		root.getChildren().addAll(send, chatField, rockBtn, paperBtn, scissorsBtn, view);
+		root.getChildren().addAll(send, chatField, rockBtn, paperBtn, scissorsBtn, userName, view);
 		Scene gameScene = new Scene(root, 500, 250);
 		gameStage.setScene(gameScene);
 		gameStage.show();
