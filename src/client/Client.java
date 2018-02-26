@@ -77,6 +77,15 @@ public class Client {
 	}
 
 	/**
+	 * Gets the name of the client
+	 * 
+	 * @return the name of the client
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
 	 * Connects to another client
 	 * 
 	 * @param clientName
@@ -87,13 +96,10 @@ public class Client {
 	}
 
 	/**
-	 * Disconnects from another client
-	 * 
-	 * @param clientName
-	 *            the name of the client
+	 * Disconnects opponents
 	 */
-	public void disconnectFrom(String clientName) {
-		commands.push("disconnectFrom " + clientName);
+	public void disconnectFromOpponent() {
+		commands.push("disconnect");
 	}
 
 	/**
@@ -107,9 +113,19 @@ public class Client {
 	}
 
 	/**
+	 * Sends the choice to a connected client
+	 * 
+	 * @param choice
+	 *            the choice
+	 */
+	public void setChoice(String choice) {
+		commands.push("choice " + choice);
+	}
+
+	/**
 	 * Quits the application
 	 */
 	public void quit() {
-		commands.push("quit");
+		commands.push("quit " + name);
 	}
 }
