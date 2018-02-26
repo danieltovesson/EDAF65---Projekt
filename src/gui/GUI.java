@@ -99,6 +99,9 @@ public class GUI {
 						// Create FlowPane for StartPage
 						FlowPane flow = new FlowPane(50, 50);
 						flow.setAlignment(Pos.CENTER);
+						flow.setHgap(100);
+						flow.setVgap(20);
+						flow.setPadding(new Insets(15, 15, 15, 15));
 
 						// Create response Label
 						Label response = new Label("Select user to play against");
