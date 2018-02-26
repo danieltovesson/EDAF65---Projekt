@@ -304,7 +304,7 @@ public class GUI {
 		gameStage = new Stage();
 		stage.setTitle("GameView");
 		root.getChildren().addAll(send, chatField, rockBtn, paperBtn, scissorsBtn, userName, view);
-		Scene gameScene = new Scene(root, 500, 250);
+		Scene gameScene = new Scene(root, 390, 500);
 		gameStage.setScene(gameScene);
 		gameStage.show();
 
